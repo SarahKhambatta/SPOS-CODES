@@ -1,0 +1,100 @@
+Public Module Calculator
+    Public Function Add(n1 As Integer, n2 As Integer) As Integer
+        Return n1 + n2
+    End Function
+
+    Public Function Subtract(n1 As Integer, n2 As Integer) As Integer
+        Return n1 - n2
+    End Function
+
+    Public Function Multiply(n1 As Integer, n2 As Integer) As Integer
+        Return n1 * n2
+    End Function
+
+    Public Function Divide(n1 As Integer, n2 As Integer) As Integer
+        If n2 <> 0 Then
+            Return n1 \ n2
+        Else
+            MessageBox.Show("Cannot divide by zero.")
+            Return 0
+        End If
+    End Function
+End Module
+
+
+
+
+The code you've provided appears to be written in Visual Basic .NET (VB.NET). To run this code from the command line, you'll need to compile it into an executable. Here’s a step-by-step guide on how to do that:
+
+### 1. Install Visual Studio or the .NET SDK
+Make sure you have the .NET SDK installed on your machine. You can download it from the [.NET official website](https://dotnet.microsoft.com/download).
+
+### 2. Create a New VB.NET Project
+1. **Open a Command Prompt or PowerShell** window.
+2. **Create a new directory** for your project:
+   ```bash
+   mkdir CalculatorApp
+   cd CalculatorApp
+   ```
+3. **Create a new VB.NET console application**:
+   ```bash
+   dotnet new console -n CalculatorApp
+   cd CalculatorApp
+   ```
+
+### 3. Add Your Code
+1. **Open the `Program.vb` file** located in the `CalculatorApp` directory using a text editor.
+2. Replace the content with your module code, adding a `Main` subroutine to allow execution, like this:
+
+   ```vb
+   Imports System
+
+   Module Calculator
+       Public Function Add(n1 As Integer, n2 As Integer) As Integer
+           Return n1 + n2
+       End Function
+
+       Public Function Subtract(n1 As Integer, n2 As Integer) As Integer
+           Return n1 - n2
+       End Function
+
+       Public Function Multiply(n1 As Integer, n2 As Integer) As Integer
+           Return n1 * n2
+       End Function
+
+       Public Function Divide(n1 As Integer, n2 As Integer) As Integer
+           If n2 <> 0 Then
+               Return n1 \ n2
+           Else
+               Console.WriteLine("Cannot divide by zero.")
+               Return 0
+           End If
+       End Function
+
+       Sub Main()
+           ' Example usage of the calculator functions
+           Console.WriteLine("Add: " & Add(5, 3))
+           Console.WriteLine("Subtract: " & Subtract(5, 3))
+           Console.WriteLine("Multiply: " & Multiply(5, 3))
+           Console.WriteLine("Divide: " & Divide(5, 0)) ' This will show a message for division by zero
+           Console.ReadLine() ' Wait for input before closing
+       End Sub
+   End Module
+   ```
+
+### 4. Build the Application
+1. **Back in the command line**, make sure you’re in the `CalculatorApp` directory.
+2. **Run the build command**:
+   ```bash
+   dotnet build
+   ```
+
+### 5. Run the Application
+After a successful build, you can run the application:
+```bash
+dotnet run
+```
+
+### Notes:
+- If you encounter any issues with the installation of the .NET SDK or the creation of the project, please let me know.
+- The above example includes a simple way to demonstrate the calculator functions. You can modify the `Main` subroutine to take user input and perform operations dynamically if you wish.

@@ -1,0 +1,71 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    int n, fz;
+    cout << "Enter the number of pages in the reference string: ";
+    cin >> n;
+    
+    vector<int> R(n);
+    cout << "Enter the page reference string:\n";
+    for (int i = 0; i < n; i++) {
+        cin >> R[i];
+    }
+
+    cout << "Enter the number of frames: ";
+    cin >> fz;
+    
+    vector<int> fr(fz, -1);
+    int pagef = 0, pageh = 0;
+
+    for (int i = 0; i < n; i++) {
+        bool hit = false;
+        
+        for (int j = 0; j < fz; j++) {
+            if (fr[j] == R[i]) {
+                pageh++;
+                hit = true;
+                break;
+            }
+        }
+
+        if (!hit) {
+            pagef++;
+            
+            bool replaced = false;
+            for (int j = 0; j < fz; j++) {
+                if (fr[j] == -1) {
+                    fr[j] = R[i];
+                    replaced = true;
+                    break;
+                }
+            }
+
+            if (!replaced) {
+                int farthest = i + 1, replaceIndex = -1;
+
+                for (int j = 0; j < fz; j++) {
+                    int k;
+                    for (k = i + 1; k < n; k++) {
+                        if (fr[j] == R[k]) break;
+                    }
+                    if (k > farthest) {
+                        farthest = k;
+                        replaceIndex = j;
+                    }
+                }
+                
+                fr[replaceIndex] = R[i];
+            }
+        }
+    }
+
+    double hitRatio = static_cast<double>(pageh) / n;
+
+    cout << "Page hits: " << pageh << endl;
+    cout << "Page faults: " << pagef << endl;
+    cout << "Hit Ratio: " << hitRatio << endl;
+
+    return 0;
+}

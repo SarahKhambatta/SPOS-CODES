@@ -1,0 +1,45 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    const int MAX_PROCESSES = 20;
+    int arrivalTime[MAX_PROCESSES], burstTime[MAX_PROCESSES];
+    int completionTime[MAX_PROCESSES], waitingTime[MAX_PROCESSES], turnaroundTime[MAX_PROCESSES];
+    int numProcesses;
+    float totalWaitTime = 0, totalTat = 0;
+
+    cout << "Enter the number of processes (max " << MAX_PROCESSES << "): ";
+    cin >> numProcesses;
+
+    for (int i = 0; i < numProcesses; i++) {
+        cout << "Enter Arrival Time for Process " << i + 1 << ": ";
+        cin >> arrivalTime[i];
+        cout << "Enter Burst Time for Process " << i + 1 << ": ";
+        cin >> burstTime[i];
+    }
+
+    for (int i = 0; i < numProcesses; i++) {
+        if (i == 0) {
+            completionTime[i] = arrivalTime[i] + burstTime[i];
+        } else {
+            completionTime[i] = max(arrivalTime[i], completionTime[i - 1]) + burstTime[i];
+        }
+        turnaroundTime[i] = completionTime[i] - arrivalTime[i];
+        waitingTime[i] = turnaroundTime[i] - burstTime[i];
+
+        totalWaitTime += waitingTime[i];
+        totalTat += turnaroundTime[i];
+    }
+
+    cout << "\nPROCESS\tARRIVAL TIME\tBURST TIME\tCOMPLETION TIME\tWAITING TIME\tTURNAROUND TIME\n";
+    for (int i = 0; i < numProcesses; i++) {
+        cout << "\nP" << i + 1 << "\t" << arrivalTime[i] << "\t\t" 
+             << burstTime[i] << "\t\t" << completionTime[i] << "\t\t" 
+             << waitingTime[i] << "\t\t" << turnaroundTime[i];
+    }
+
+    cout << "\nAverage Waiting Time: " << totalWaitTime / numProcesses;
+    cout << "\nAverage Turnaround Time: " << totalTat / numProcesses << endl;
+
+    return 0;
+}

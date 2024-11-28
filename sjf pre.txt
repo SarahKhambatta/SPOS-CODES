@@ -1,0 +1,68 @@
+#include <iostream>
+#include <algorithm>
+#include <climits>
+using namespace std;
+
+struct Process {
+    int id, arrivalTime, burstTime, remainingTime;
+};
+
+int main() {
+    const int MAX_PROCESSES = 20;
+    Process processes[MAX_PROCESSES];
+    int n, currentTime = 0, completed = 0;
+    float totalWaitTime = 0, totalTat = 0;
+
+    cout << "Enter the number of processes: ";
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        processes[i].id = i + 1;
+        cout << "Enter Arrival Time for Process " << processes[i].id << ": ";
+        cin >> processes[i].arrivalTime;
+        cout << "Enter Burst Time for Process " << processes[i].id << ": ";
+        cin >> processes[i].burstTime;
+        processes[i].remainingTime = processes[i].burstTime;
+    }
+
+    while (completed < n) {
+        int idx = -1;
+        int minTime = INT_MAX;
+
+        for (int i = 0; i < n; i++) {
+            if (processes[i].arrivalTime <= currentTime && processes[i].remainingTime > 0) {
+                if (processes[i].remainingTime < minTime) {
+                    minTime = processes[i].remainingTime;
+                    idx = i;
+                }
+            }
+        }
+
+        if (idx != -1) {
+            processes[idx].remainingTime--;
+            currentTime++;
+
+            if (processes[idx].remainingTime == 0) {
+                processes[idx].turnaroundTime = currentTime - processes[idx].arrivalTime;
+                processes[idx].waitingTime = processes[idx].turnaroundTime - processes[idx].burstTime;
+                totalWaitTime += processes[idx].waitingTime;
+                totalTat += processes[idx].turnaroundTime;
+                completed++;
+            }
+        } else {
+            currentTime++;
+        }
+    }
+
+    cout << "\nPROCESS\tARRIVAL TIME\tBURST TIME\tWAITING TIME\tTURNAROUND TIME\n";
+    for (int i = 0; i < n; i++) {
+        cout << "P" << processes[i].id << "\t" << processes[i].arrivalTime << "\t\t"
+             << processes[i].burstTime << "\t\t" << processes[i].waitingTime << "\t\t"
+             << processes[i].turnaroundTime << endl;
+    }
+
+    cout << "Average Waiting Time: " << totalWaitTime / n << endl;
+    cout << "Average Turnaround Time: " << totalTat / n << endl;
+
+    return 0;
+}
